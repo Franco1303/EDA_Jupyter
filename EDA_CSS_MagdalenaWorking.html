@@ -1,0 +1,1991 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>CSS Magdalena — Análisis Exploratorio de Datos y Modelos &#8212; EDA CSS Magdalena</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'EDA_CSS_MagdalenaWorking';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">EDA CSS Magdalena</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1 current active">
+                <a class="reference internal" href="#">
+                    CSS Magdalena — Análisis Exploratorio de Datos y Modelos
+                </a>
+            </li>
+        </ul>
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/EDA_CSS_MagdalenaWorking.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CSS Magdalena — Análisis Exploratorio de Datos y Modelos</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimacion-de-concentracion-de-sedimentos-en-suspension-en-el-rio-magdalena-mediante-sentinel-2">Estimación de Concentración de Sedimentos en Suspensión en el Río Magdalena mediante Sentinel-2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importaciones-y-configuracion">1. Importaciones y configuración</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-de-datos">2. Carga de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vista-general-del-dataset">3. Vista general del dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estadisticas-descriptivas">4. Estadísticas descriptivas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribucion-de-ssc-por-estacion">5. Distribución de SSC por estación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#series-de-tiempo">6. Series de tiempo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#firmas-espectrales">7. Firmas espectrales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking-de-correlaciones-con-ssc">8. Ranking de correlaciones con SSC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriz-de-correlacion">9. Matriz de correlación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatter-reflectancia-vs-ssc-ejemplo-nir-red">10. Scatter: Reflectancia vs SSC (ejemplo NIR/RED)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mapa-de-calor-espacio-temporal">11. Mapa de calor espacio-temporal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-de-regresion-calibracion-y-validacion-loocv">12. Modelos de Regresión — Calibración y Validación LOOCV</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-de-modelos-pre-entrenados">12.1 Carga de modelos pre-entrenados</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tabla-comparativa-de-metricas">12.2 Tabla comparativa de métricas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grafica-de-comparacion-de-metricas">12.3 Gráfica de comparación de métricas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graficas-1-1-ssc-medido-vs-modelado-calibracion">12.4 Gráficas 1:1 — SSC medido vs modelado (Calibración)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graficas-1-1-validacion-loocv">12.5 Gráficas 1:1 — Validación LOOCV</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribucion-de-residuos-loocv">12.6 Distribución de residuos (LOOCV)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#identificacion-del-mejor-modelo">12.7 Identificación del mejor modelo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusiones">13. Conclusiones</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#eda">EDA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos">Modelos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limitaciones">Limitaciones</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="css-magdalena-analisis-exploratorio-de-datos-y-modelos">
+<h1>CSS Magdalena — Análisis Exploratorio de Datos y Modelos<a class="headerlink" href="#css-magdalena-analisis-exploratorio-de-datos-y-modelos" title="Permalink to this heading">#</a></h1>
+<section id="estimacion-de-concentracion-de-sedimentos-en-suspension-en-el-rio-magdalena-mediante-sentinel-2">
+<h2>Estimación de Concentración de Sedimentos en Suspensión en el Río Magdalena mediante Sentinel-2<a class="headerlink" href="#estimacion-de-concentracion-de-sedimentos-en-suspension-en-el-rio-magdalena-mediante-sentinel-2" title="Permalink to this heading">#</a></h2>
+<p><strong>Autor:</strong> Francisco Javier Morales Carroll<br />
+<strong>Institución:</strong> Universidad del Norte<br />
+<strong>Período:</strong> Junio 2025 – Marzo 2026</p>
+<hr class="docutils" />
+<p>Este notebook presenta el análisis exploratorio completo (EDA) y la evaluación de modelos de regresión<br />
+para estimar la concentración superficial de sedimentos en suspensión (SSC) a partir de reflectancia<br />
+espectral Sentinel-2 en el tramo final del río Magdalena, Barranquilla, Colombia.</p>
+<p><strong>Estructura:</strong></p>
+<ol class="arabic simple">
+<li><p>Importaciones y carga de datos</p></li>
+<li><p>Vista general del dataset</p></li>
+<li><p>Estadísticas descriptivas</p></li>
+<li><p>Distribución de SSC por estación</p></li>
+<li><p>Series de tiempo</p></li>
+<li><p>Firmas espectrales</p></li>
+<li><p>Correlaciones con SSC</p></li>
+<li><p>Matriz de correlación</p></li>
+<li><p>Mapa de calor espacio-temporal</p></li>
+<li><p><strong>Modelos de regresión: calibración, LOOCV y comparación</strong></p></li>
+<li><p>Conclusiones</p></li>
+</ol>
+</section>
+<section id="importaciones-y-configuracion">
+<h2>1. Importaciones y configuración<a class="headerlink" href="#importaciones-y-configuracion" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.cm</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mcolors</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.gridspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSpec</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">pearsonr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestRegressor</span><span class="p">,</span> <span class="n">GradientBoostingRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVR</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">LeaveOneOut</span><span class="p">,</span> <span class="n">cross_val_predict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_squared_error</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># ── Estilo visual ──</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s1">&#39;figure.facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;#0f1b2b&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;axes.facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;#071018&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;axes.edgecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;#233548&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;axes.labelcolor&#39;</span><span class="p">:</span> <span class="s1">&#39;#A49B92&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;xtick.color&#39;</span><span class="p">:</span> <span class="s1">&#39;#8fa3b8&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ytick.color&#39;</span><span class="p">:</span> <span class="s1">&#39;#8fa3b8&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;text.color&#39;</span><span class="p">:</span> <span class="s1">&#39;#A49B92&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;grid.color&#39;</span><span class="p">:</span> <span class="s1">&#39;#233548&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;grid.alpha&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="s1">&#39;axes.titlesize&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+    <span class="s1">&#39;axes.labelsize&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+    <span class="s1">&#39;xtick.labelsize&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+    <span class="s1">&#39;ytick.labelsize&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+    <span class="s1">&#39;legend.fontsize&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+    <span class="s1">&#39;figure.titlesize&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+    <span class="s1">&#39;font.family&#39;</span><span class="p">:</span> <span class="s1">&#39;DejaVu Sans&#39;</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="n">KM_COLORS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span>  <span class="s2">&quot;#4db6ff&quot;</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">:</span>  <span class="s2">&quot;#9be564&quot;</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span>  <span class="s2">&quot;#36d399&quot;</span><span class="p">,</span>
+    <span class="mi">5</span><span class="p">:</span>  <span class="s2">&quot;#f38ba8&quot;</span><span class="p">,</span>
+    <span class="mi">7</span><span class="p">:</span>  <span class="s2">&quot;#74c7ec&quot;</span><span class="p">,</span>
+    <span class="mi">11</span><span class="p">:</span> <span class="s2">&quot;#f6c177&quot;</span><span class="p">,</span>
+    <span class="mi">14</span><span class="p">:</span> <span class="s2">&quot;#bb86fc&quot;</span><span class="p">,</span>
+    <span class="mi">17</span><span class="p">:</span> <span class="s2">&quot;#ff9e64&quot;</span><span class="p">,</span>
+    <span class="mi">18</span><span class="p">:</span> <span class="s2">&quot;#ff6b6b&quot;</span><span class="p">,</span>
+    <span class="mi">19</span><span class="p">:</span> <span class="s2">&quot;#c792ea&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">ACCENT</span> <span class="o">=</span> <span class="s2">&quot;#3fa7ff&quot;</span>
+<span class="n">GREEN</span>  <span class="o">=</span> <span class="s2">&quot;#41c98b&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Librerías cargadas correctamente&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Librerías cargadas correctamente
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="carga-de-datos">
+<h2>2. Carga de datos<a class="headerlink" href="#carga-de-datos" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Dataset principal (puntos matcheados campo + Sentinel-2) ──</span>
+<span class="c1"># Ajusta la ruta según tu estructura de proyecto</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;puntos_alternativos.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;reflectance_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;reflectance_date&quot;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;scc_date&quot;</span><span class="p">]</span>         <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;scc_date&quot;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;km_label&quot;</span><span class="p">]</span>         <span class="o">=</span> <span class="s2">&quot;Km &quot;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;km&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="n">BANDAS</span>  <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;aerosol&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;rojo 1&quot;</span><span class="p">,</span> <span class="s2">&quot;rojo 2&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;rojo 3&quot;</span><span class="p">,</span> <span class="s2">&quot;NIR&quot;</span><span class="p">,</span> <span class="s2">&quot;rojo 4&quot;</span><span class="p">,</span> <span class="s2">&quot;SWIR1&quot;</span><span class="p">,</span> <span class="s2">&quot;SWIR2&quot;</span><span class="p">]</span>
+<span class="n">INDICES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;RANS&quot;</span><span class="p">,</span> <span class="s2">&quot;VNES&quot;</span><span class="p">,</span> <span class="s2">&quot;NDTI&quot;</span><span class="p">,</span> <span class="s2">&quot;NIR/RED&quot;</span><span class="p">]</span>
+<span class="n">SSCS</span>    <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SSC&quot;</span><span class="p">,</span> <span class="s2">&quot;SSC2&quot;</span><span class="p">,</span> <span class="s2">&quot;SSC4&quot;</span><span class="p">]</span>
+<span class="n">KMS_ALL</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;km&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset cargado: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> observaciones, </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;km&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2"> estaciones&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Período: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;reflectance_date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;reflectance_date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Kilómetros: </span><span class="si">{</span><span class="n">KMS_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SSC rango: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;SSC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> – </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;SSC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> mg/L&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset cargado: 42 observaciones, 7 estaciones
+Período: 2025-06-26 → 2026-03-06
+Kilómetros: [0, 1, 3, 14, 17, 18, 19]
+SSC rango: 179 – 670 mg/L
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>reflectance_date</th>
+      <th>km</th>
+      <th>+m</th>
+      <th>aerosol</th>
+      <th>blue</th>
+      <th>green</th>
+      <th>red</th>
+      <th>rojo 1</th>
+      <th>rojo 2</th>
+      <th>rojo 3</th>
+      <th>...</th>
+      <th>SSC4</th>
+      <th>SSC_median4</th>
+      <th>SSC_median2</th>
+      <th>time_diff</th>
+      <th>RANS</th>
+      <th>VNES</th>
+      <th>NIR/RED</th>
+      <th>NDTI</th>
+      <th>modelo_rans</th>
+      <th>km_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-06-26</td>
+      <td>19</td>
+      <td>800</td>
+      <td>0.06010</td>
+      <td>0.067404</td>
+      <td>0.089976</td>
+      <td>0.100168</td>
+      <td>0.106452</td>
+      <td>0.075360</td>
+      <td>0.079292</td>
+      <td>...</td>
+      <td>362.872914</td>
+      <td>357.56560</td>
+      <td>364.16440</td>
+      <td>1 days</td>
+      <td>0.463243</td>
+      <td>0.765533</td>
+      <td>0.628584</td>
+      <td>0.053601</td>
+      <td>5.598626</td>
+      <td>Km 19</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-12-16</td>
+      <td>3</td>
+      <td>500</td>
+      <td>0.04680</td>
+      <td>0.065828</td>
+      <td>0.086508</td>
+      <td>0.098404</td>
+      <td>0.102028</td>
+      <td>0.066452</td>
+      <td>0.069940</td>
+      <td>...</td>
+      <td>340.086400</td>
+      <td>340.49170</td>
+      <td>329.42195</td>
+      <td>1 days</td>
+      <td>0.473541</td>
+      <td>0.784189</td>
+      <td>0.580505</td>
+      <td>0.064333</td>
+      <td>5.794190</td>
+      <td>Km 3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-12-16</td>
+      <td>19</td>
+      <td>800</td>
+      <td>0.03916</td>
+      <td>0.056368</td>
+      <td>0.074824</td>
+      <td>0.084776</td>
+      <td>0.090944</td>
+      <td>0.068532</td>
+      <td>0.073188</td>
+      <td>...</td>
+      <td>364.115027</td>
+      <td>358.72630</td>
+      <td>352.48610</td>
+      <td>1 days</td>
+      <td>0.486184</td>
+      <td>0.790121</td>
+      <td>0.716004</td>
+      <td>0.062356</td>
+      <td>6.034278</td>
+      <td>Km 19</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-12-16</td>
+      <td>14</td>
+      <td>800</td>
+      <td>0.05018</td>
+      <td>0.068392</td>
+      <td>0.086908</td>
+      <td>0.098016</td>
+      <td>0.103104</td>
+      <td>0.071208</td>
+      <td>0.077372</td>
+      <td>...</td>
+      <td>392.664796</td>
+      <td>392.44855</td>
+      <td>407.44840</td>
+      <td>1 days</td>
+      <td>0.471989</td>
+      <td>0.774528</td>
+      <td>0.641079</td>
+      <td>0.060068</td>
+      <td>5.764714</td>
+      <td>Km 14</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-12-16</td>
+      <td>17</td>
+      <td>600</td>
+      <td>0.05010</td>
+      <td>0.068216</td>
+      <td>0.088724</td>
+      <td>0.098632</td>
+      <td>0.102984</td>
+      <td>0.073404</td>
+      <td>0.078504</td>
+      <td>...</td>
+      <td>317.326008</td>
+      <td>319.66880</td>
+      <td>314.11900</td>
+      <td>1 days</td>
+      <td>0.469781</td>
+      <td>0.767643</td>
+      <td>0.646768</td>
+      <td>0.052883</td>
+      <td>5.722784</td>
+      <td>Km 17</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 27 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="vista-general-del-dataset">
+<h2>3. Vista general del dataset<a class="headerlink" href="#vista-general-del-dataset" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== FORMA Y TIPOS ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== VALORES NULOS ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">BANDAS</span> <span class="o">+</span> <span class="n">INDICES</span> <span class="o">+</span> <span class="n">SSCS</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== OBSERVACIONES POR ESTACIÓN ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;km&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;n_obs&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== FORMA Y TIPOS ===
+Shape: (42, 27)
+
+=== VALORES NULOS ===
+aerosol    0
+blue       0
+green      0
+red        0
+rojo 1     0
+rojo 2     0
+rojo 3     0
+NIR        0
+rojo 4     0
+SWIR1      0
+SWIR2      0
+RANS       0
+VNES       0
+NDTI       0
+NIR/RED    0
+SSC        0
+SSC2       0
+SSC4       0
+dtype: int64
+
+=== OBSERVACIONES POR ESTACIÓN ===
+km
+0      3
+1      5
+3      5
+14     5
+17     6
+18     5
+19    13
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="estadisticas-descriptivas">
+<h2>4. Estadísticas descriptivas<a class="headerlink" href="#estadisticas-descriptivas" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># SSC y bandas principales</span>
+<span class="n">desc_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SSC&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">BANDAS</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="n">INDICES</span>
+<span class="n">df</span><span class="p">[</span><span class="n">desc_cols</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">background_gradient</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type="text/css">
+#T_f8ca6_row0_col0, #T_f8ca6_row1_col1, #T_f8ca6_row1_col2, #T_f8ca6_row1_col3, #T_f8ca6_row1_col4, #T_f8ca6_row1_col5, #T_f8ca6_row1_col6, #T_f8ca6_row1_col9, #T_f8ca6_row2_col1, #T_f8ca6_row2_col2, #T_f8ca6_row2_col3, #T_f8ca6_row2_col4, #T_f8ca6_row2_col5, #T_f8ca6_row2_col6, #T_f8ca6_row2_col7, #T_f8ca6_row2_col8, #T_f8ca6_row2_col9, #T_f8ca6_row2_col10, #T_f8ca6_row3_col1, #T_f8ca6_row3_col2, #T_f8ca6_row3_col3, #T_f8ca6_row3_col4, #T_f8ca6_row3_col5, #T_f8ca6_row3_col6, #T_f8ca6_row3_col9, #T_f8ca6_row4_col1, #T_f8ca6_row4_col2, #T_f8ca6_row4_col3, #T_f8ca6_row4_col4, #T_f8ca6_row4_col5, #T_f8ca6_row4_col6, #T_f8ca6_row4_col9, #T_f8ca6_row5_col1, #T_f8ca6_row5_col2, #T_f8ca6_row5_col3, #T_f8ca6_row5_col4, #T_f8ca6_row5_col5, #T_f8ca6_row5_col6, #T_f8ca6_row5_col9, #T_f8ca6_row6_col1, #T_f8ca6_row6_col2, #T_f8ca6_row6_col3, #T_f8ca6_row6_col4, #T_f8ca6_row6_col5, #T_f8ca6_row6_col6, #T_f8ca6_row6_col9, #T_f8ca6_row7_col1, #T_f8ca6_row7_col2, #T_f8ca6_row7_col3, #T_f8ca6_row7_col4, #T_f8ca6_row7_col5, #T_f8ca6_row7_col6, #T_f8ca6_row7_col9 {
+  background-color: #f7fbff;
+  color: #000000;
+}
+#T_f8ca6_row0_col1, #T_f8ca6_row0_col2, #T_f8ca6_row0_col3, #T_f8ca6_row0_col4, #T_f8ca6_row0_col5, #T_f8ca6_row0_col6, #T_f8ca6_row0_col7, #T_f8ca6_row0_col8, #T_f8ca6_row0_col9, #T_f8ca6_row0_col10, #T_f8ca6_row7_col0 {
+  background-color: #08306b;
+  color: #f1f1f1;
+}
+#T_f8ca6_row1_col0 {
+  background-color: #68acd5;
+  color: #f1f1f1;
+}
+#T_f8ca6_row1_col7, #T_f8ca6_row3_col7, #T_f8ca6_row3_col10, #T_f8ca6_row4_col7, #T_f8ca6_row5_col7, #T_f8ca6_row6_col7, #T_f8ca6_row7_col7 {
+  background-color: #f5fafe;
+  color: #000000;
+}
+#T_f8ca6_row1_col8, #T_f8ca6_row4_col8, #T_f8ca6_row5_col8, #T_f8ca6_row5_col10, #T_f8ca6_row6_col8, #T_f8ca6_row6_col10, #T_f8ca6_row7_col8, #T_f8ca6_row7_col10 {
+  background-color: #f4f9fe;
+  color: #000000;
+}
+#T_f8ca6_row1_col10, #T_f8ca6_row3_col8, #T_f8ca6_row4_col10 {
+  background-color: #f5f9fe;
+  color: #000000;
+}
+#T_f8ca6_row2_col0 {
+  background-color: #deebf7;
+  color: #000000;
+}
+#T_f8ca6_row3_col0 {
+  background-color: #cddff1;
+  color: #000000;
+}
+#T_f8ca6_row4_col0 {
+  background-color: #8cc0dd;
+  color: #000000;
+}
+#T_f8ca6_row5_col0 {
+  background-color: #74b3d8;
+  color: #000000;
+}
+#T_f8ca6_row6_col0 {
+  background-color: #58a1cf;
+  color: #f1f1f1;
+}
+</style>
+<table id="T_f8ca6">
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_f8ca6_level0_col0" class="col_heading level0 col0" >SSC</th>
+      <th id="T_f8ca6_level0_col1" class="col_heading level0 col1" >aerosol</th>
+      <th id="T_f8ca6_level0_col2" class="col_heading level0 col2" >blue</th>
+      <th id="T_f8ca6_level0_col3" class="col_heading level0 col3" >green</th>
+      <th id="T_f8ca6_level0_col4" class="col_heading level0 col4" >red</th>
+      <th id="T_f8ca6_level0_col5" class="col_heading level0 col5" >rojo 1</th>
+      <th id="T_f8ca6_level0_col6" class="col_heading level0 col6" >rojo 2</th>
+      <th id="T_f8ca6_level0_col7" class="col_heading level0 col7" >RANS</th>
+      <th id="T_f8ca6_level0_col8" class="col_heading level0 col8" >VNES</th>
+      <th id="T_f8ca6_level0_col9" class="col_heading level0 col9" >NDTI</th>
+      <th id="T_f8ca6_level0_col10" class="col_heading level0 col10" >NIR/RED</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_f8ca6_level0_row0" class="row_heading level0 row0" >count</th>
+      <td id="T_f8ca6_row0_col0" class="data row0 col0" >42.000000</td>
+      <td id="T_f8ca6_row0_col1" class="data row0 col1" >42.000000</td>
+      <td id="T_f8ca6_row0_col2" class="data row0 col2" >42.000000</td>
+      <td id="T_f8ca6_row0_col3" class="data row0 col3" >42.000000</td>
+      <td id="T_f8ca6_row0_col4" class="data row0 col4" >42.000000</td>
+      <td id="T_f8ca6_row0_col5" class="data row0 col5" >42.000000</td>
+      <td id="T_f8ca6_row0_col6" class="data row0 col6" >42.000000</td>
+      <td id="T_f8ca6_row0_col7" class="data row0 col7" >42.000000</td>
+      <td id="T_f8ca6_row0_col8" class="data row0 col8" >42.000000</td>
+      <td id="T_f8ca6_row0_col9" class="data row0 col9" >42.000000</td>
+      <td id="T_f8ca6_row0_col10" class="data row0 col10" >42.000000</td>
+    </tr>
+    <tr>
+      <th id="T_f8ca6_level0_row1" class="row_heading level0 row1" >mean</th>
+      <td id="T_f8ca6_row1_col0" class="data row1 col0" >362.154600</td>
+      <td id="T_f8ca6_row1_col1" class="data row1 col1" >0.053800</td>
+      <td id="T_f8ca6_row1_col2" class="data row1 col2" >0.070800</td>
+      <td id="T_f8ca6_row1_col3" class="data row1 col3" >0.092100</td>
+      <td id="T_f8ca6_row1_col4" class="data row1 col4" >0.104400</td>
+      <td id="T_f8ca6_row1_col5" class="data row1 col5" >0.110500</td>
+      <td id="T_f8ca6_row1_col6" class="data row1 col6" >0.085000</td>
+      <td id="T_f8ca6_row1_col7" class="data row1 col7" >0.462600</td>
+      <td id="T_f8ca6_row1_col8" class="data row1 col8" >0.748400</td>
+      <td id="T_f8ca6_row1_col9" class="data row1 col9" >0.063000</td>
+      <td id="T_f8ca6_row1_col10" class="data row1 col10" >0.719400</td>
+    </tr>
+    <tr>
+      <th id="T_f8ca6_level0_row2" class="row_heading level0 row2" >std</th>
+      <td id="T_f8ca6_row2_col0" class="data row2 col0" >121.947800</td>
+      <td id="T_f8ca6_row2_col1" class="data row2 col1" >0.011100</td>
+      <td id="T_f8ca6_row2_col2" class="data row2 col2" >0.014200</td>
+      <td id="T_f8ca6_row2_col3" class="data row2 col3" >0.012400</td>
+      <td id="T_f8ca6_row2_col4" class="data row2 col4" >0.013300</td>
+      <td id="T_f8ca6_row2_col5" class="data row2 col5" >0.013500</td>
+      <td id="T_f8ca6_row2_col6" class="data row2 col6" >0.013600</td>
+      <td id="T_f8ca6_row2_col7" class="data row2 col7" >0.025000</td>
+      <td id="T_f8ca6_row2_col8" class="data row2 col8" >0.045900</td>
+      <td id="T_f8ca6_row2_col9" class="data row2 col9" >0.012700</td>
+      <td id="T_f8ca6_row2_col10" class="data row2 col10" >0.073100</td>
+    </tr>
+    <tr>
+      <th id="T_f8ca6_level0_row3" class="row_heading level0 row3" >min</th>
+      <td id="T_f8ca6_row3_col0" class="data row3 col0" >178.866300</td>
+      <td id="T_f8ca6_row3_col1" class="data row3 col1" >0.036300</td>
+      <td id="T_f8ca6_row3_col2" class="data row3 col2" >0.045000</td>
+      <td id="T_f8ca6_row3_col3" class="data row3 col3" >0.067800</td>
+      <td id="T_f8ca6_row3_col4" class="data row3 col4" >0.076900</td>
+      <td id="T_f8ca6_row3_col5" class="data row3 col5" >0.082000</td>
+      <td id="T_f8ca6_row3_col6" class="data row3 col6" >0.062000</td>
+      <td id="T_f8ca6_row3_col7" class="data row3 col7" >0.404200</td>
+      <td id="T_f8ca6_row3_col8" class="data row3 col8" >0.642200</td>
+      <td id="T_f8ca6_row3_col9" class="data row3 col9" >0.037500</td>
+      <td id="T_f8ca6_row3_col10" class="data row3 col10" >0.558100</td>
+    </tr>
+    <tr>
+      <th id="T_f8ca6_level0_row4" class="row_heading level0 row4" >25%</th>
+      <td id="T_f8ca6_row4_col0" class="data row4 col0" >306.553400</td>
+      <td id="T_f8ca6_row4_col1" class="data row4 col1" >0.046500</td>
+      <td id="T_f8ca6_row4_col2" class="data row4 col2" >0.059700</td>
+      <td id="T_f8ca6_row4_col3" class="data row4 col3" >0.084900</td>
+      <td id="T_f8ca6_row4_col4" class="data row4 col4" >0.098100</td>
+      <td id="T_f8ca6_row4_col5" class="data row4 col5" >0.102800</td>
+      <td id="T_f8ca6_row4_col6" class="data row4 col6" >0.073900</td>
+      <td id="T_f8ca6_row4_col7" class="data row4 col7" >0.444800</td>
+      <td id="T_f8ca6_row4_col8" class="data row4 col8" >0.713900</td>
+      <td id="T_f8ca6_row4_col9" class="data row4 col9" >0.055700</td>
+      <td id="T_f8ca6_row4_col10" class="data row4 col10" >0.667500</td>
+    </tr>
+    <tr>
+      <th id="T_f8ca6_level0_row5" class="row_heading level0 row5" >50%</th>
+      <td id="T_f8ca6_row5_col0" class="data row5 col0" >342.230600</td>
+      <td id="T_f8ca6_row5_col1" class="data row5 col1" >0.054800</td>
+      <td id="T_f8ca6_row5_col2" class="data row5 col2" >0.073600</td>
+      <td id="T_f8ca6_row5_col3" class="data row5 col3" >0.093700</td>
+      <td id="T_f8ca6_row5_col4" class="data row5 col4" >0.106700</td>
+      <td id="T_f8ca6_row5_col5" class="data row5 col5" >0.113600</td>
+      <td id="T_f8ca6_row5_col6" class="data row5 col6" >0.086400</td>
+      <td id="T_f8ca6_row5_col7" class="data row5 col7" >0.467600</td>
+      <td id="T_f8ca6_row5_col8" class="data row5 col8" >0.765100</td>
+      <td id="T_f8ca6_row5_col9" class="data row5 col9" >0.062400</td>
+      <td id="T_f8ca6_row5_col10" class="data row5 col10" >0.729000</td>
+    </tr>
+    <tr>
+      <th id="T_f8ca6_level0_row6" class="row_heading level0 row6" >75%</th>
+      <td id="T_f8ca6_row6_col0" class="data row6 col0" >391.666100</td>
+      <td id="T_f8ca6_row6_col1" class="data row6 col1" >0.059200</td>
+      <td id="T_f8ca6_row6_col2" class="data row6 col2" >0.078200</td>
+      <td id="T_f8ca6_row6_col3" class="data row6 col3" >0.099000</td>
+      <td id="T_f8ca6_row6_col4" class="data row6 col4" >0.111500</td>
+      <td id="T_f8ca6_row6_col5" class="data row6 col5" >0.118900</td>
+      <td id="T_f8ca6_row6_col6" class="data row6 col6" >0.094500</td>
+      <td id="T_f8ca6_row6_col7" class="data row6 col7" >0.478300</td>
+      <td id="T_f8ca6_row6_col8" class="data row6 col8" >0.778000</td>
+      <td id="T_f8ca6_row6_col9" class="data row6 col9" >0.066000</td>
+      <td id="T_f8ca6_row6_col10" class="data row6 col10" >0.765400</td>
+    </tr>
+    <tr>
+      <th id="T_f8ca6_level0_row7" class="row_heading level0 row7" >max</th>
+      <td id="T_f8ca6_row7_col0" class="data row7 col0" >669.529600</td>
+      <td id="T_f8ca6_row7_col1" class="data row7 col1" >0.084200</td>
+      <td id="T_f8ca6_row7_col2" class="data row7 col2" >0.107100</td>
+      <td id="T_f8ca6_row7_col3" class="data row7 col3" >0.123700</td>
+      <td id="T_f8ca6_row7_col4" class="data row7 col4" >0.135000</td>
+      <td id="T_f8ca6_row7_col5" class="data row7 col5" >0.140100</td>
+      <td id="T_f8ca6_row7_col6" class="data row7 col6" >0.112600</td>
+      <td id="T_f8ca6_row7_col7" class="data row7 col7" >0.509600</td>
+      <td id="T_f8ca6_row7_col8" class="data row7 col8" >0.823300</td>
+      <td id="T_f8ca6_row7_col9" class="data row7 col9" >0.091600</td>
+      <td id="T_f8ca6_row7_col10" class="data row7 col10" >0.857600</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Estadísticas de SSC por estación</span>
+<span class="n">ssc_by_km</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;km&#39;</span><span class="p">)[</span><span class="s1">&#39;SSC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span><span class="s1">&#39;median&#39;</span><span class="p">,</span><span class="s1">&#39;std&#39;</span><span class="p">,</span><span class="s1">&#39;min&#39;</span><span class="p">,</span><span class="s1">&#39;max&#39;</span><span class="p">,</span><span class="s1">&#39;count&#39;</span><span class="p">])</span>
+<span class="n">ssc_by_km</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Media&#39;</span><span class="p">,</span> <span class="s1">&#39;Mediana&#39;</span><span class="p">,</span> <span class="s1">&#39;Desv. Est.&#39;</span><span class="p">,</span> <span class="s1">&#39;Mín.&#39;</span><span class="p">,</span> <span class="s1">&#39;Máx.&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">]</span>
+<span class="n">ssc_by_km</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Media</th>
+      <th>Mediana</th>
+      <th>Desv. Est.</th>
+      <th>Mín.</th>
+      <th>Máx.</th>
+      <th>n</th>
+    </tr>
+    <tr>
+      <th>km</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>371.0</td>
+      <td>351.3</td>
+      <td>74.0</td>
+      <td>309.0</td>
+      <td>452.9</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>297.6</td>
+      <td>305.7</td>
+      <td>35.1</td>
+      <td>251.0</td>
+      <td>342.7</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>301.5</td>
+      <td>325.0</td>
+      <td>39.6</td>
+      <td>246.6</td>
+      <td>335.8</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>331.8</td>
+      <td>341.8</td>
+      <td>93.3</td>
+      <td>178.9</td>
+      <td>429.4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>398.4</td>
+      <td>344.7</td>
+      <td>168.9</td>
+      <td>196.2</td>
+      <td>648.4</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>384.9</td>
+      <td>357.2</td>
+      <td>176.2</td>
+      <td>192.9</td>
+      <td>669.5</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>394.5</td>
+      <td>379.4</td>
+      <td>134.7</td>
+      <td>189.8</td>
+      <td>668.6</td>
+      <td>13</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="distribucion-de-ssc-por-estacion">
+<h2>5. Distribución de SSC por estación<a class="headerlink" href="#distribucion-de-ssc-por-estacion" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Distribución de Concentración de Sedimentos en Suspensión (SSC)&quot;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+<span class="c1"># Histogramas</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">km</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;km&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()):</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;km&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">km</span><span class="p">]</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s1">&#39;SSC&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Km </span><span class="si">{</span><span class="n">km</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+             <span class="n">color</span><span class="o">=</span><span class="n">KM_COLORS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">km</span><span class="p">,</span> <span class="n">ACCENT</span><span class="p">),</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;SSC (mg/L)&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Frecuencia&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Histograma por estación&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># Boxplots</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">kms_sorted</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;km&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">data_boxplot</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;km&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">km</span><span class="p">][</span><span class="s1">&#39;SSC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">km</span> <span class="ow">in</span> <span class="n">kms_sorted</span><span class="p">]</span>
+<span class="n">bp</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data_boxplot</span><span class="p">,</span> <span class="n">patch_artist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">notch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">medianprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">patch</span><span class="p">,</span> <span class="n">km</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bp</span><span class="p">[</span><span class="s1">&#39;boxes&#39;</span><span class="p">],</span> <span class="n">kms_sorted</span><span class="p">):</span>
+    <span class="n">patch</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">KM_COLORS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">km</span><span class="p">,</span> <span class="n">ACCENT</span><span class="p">))</span>
+    <span class="n">patch</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">kms_sorted</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;Km </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kms_sorted</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;SSC (mg/L)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Boxplot por estación&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/29fbfd70e9f498763017e8265b963dcc45be501456efb54a58dcd1a1d55e5e7e.png" src="_images/29fbfd70e9f498763017e8265b963dcc45be501456efb54a58dcd1a1d55e5e7e.png" />
+</div>
+</div>
+</section>
+<section id="series-de-tiempo">
+<h2>6. Series de tiempo<a class="headerlink" href="#series-de-tiempo" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">km</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;km&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()):</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;km&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">km</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;reflectance_date&#39;</span><span class="p">)</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">KM_COLORS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">km</span><span class="p">,</span> <span class="n">ACCENT</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s1">&#39;reflectance_date&#39;</span><span class="p">],</span> <span class="n">sub</span><span class="p">[</span><span class="s1">&#39;SSC&#39;</span><span class="p">],</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Km </span><span class="si">{</span><span class="n">km</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Fecha&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;SSC (mg/L)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Evolución temporal de SSC por estación (Jun 2025 – Mar 2026)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/354b2b4bae5ec1dd89f25b800ea899fe64d4fc3e0fc04cf3b6bbb497a670938b.png" src="_images/354b2b4bae5ec1dd89f25b800ea899fe64d4fc3e0fc04cf3b6bbb497a670938b.png" />
+</div>
+</div>
+</section>
+<section id="firmas-espectrales">
+<h2>7. Firmas espectrales<a class="headerlink" href="#firmas-espectrales" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Longitudes de onda reales de Sentinel-2 (nm)</span>
+<span class="n">WL</span> <span class="o">=</span> <span class="p">[</span><span class="mf">443.9</span><span class="p">,</span> <span class="mf">496.6</span><span class="p">,</span> <span class="mi">560</span><span class="p">,</span> <span class="mf">664.5</span><span class="p">,</span> <span class="mf">703.9</span><span class="p">,</span> <span class="mf">740.2</span><span class="p">,</span> <span class="mf">782.5</span><span class="p">,</span> <span class="mf">835.1</span><span class="p">,</span> <span class="mf">864.8</span><span class="p">]</span>
+<span class="n">BAND_NAMES_VIS</span> <span class="o">=</span> <span class="n">BANDAS</span><span class="p">[:</span><span class="mi">9</span><span class="p">]</span>   <span class="c1"># visible + NIR (excluye SWIR)</span>
+
+<span class="c1"># Colormap por SSC</span>
+<span class="n">sub_spec</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;km&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">19</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;SSC&#39;</span><span class="p">)</span>  <span class="c1"># Km 19 como ejemplo</span>
+<span class="n">ssc_vals</span> <span class="o">=</span> <span class="n">sub_spec</span><span class="p">[</span><span class="s1">&#39;SSC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">ssc_vals</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">vmax</span><span class="o">=</span><span class="n">ssc_vals</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">YlOrRd</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">sub_spec</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">refl</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">BAND_NAMES_VIS</span> <span class="k">if</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+    <span class="n">wl_use</span> <span class="o">=</span> <span class="n">WL</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">refl</span><span class="p">)]</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;SSC&#39;</span><span class="p">]))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wl_use</span><span class="p">,</span> <span class="n">refl</span><span class="p">,</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+
+<span class="n">sm</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">)</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">set_array</span><span class="p">([])</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sm</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;SSC (mg/L)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#A49B92&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#8fa3b8&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Longitud de onda (nm)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Reflectancia (sr⁻¹)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Firmas espectrales coloreadas por SSC — Km 19&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># Sombreado de bandas</span>
+<span class="n">band_regions</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">458</span><span class="p">,</span><span class="mi">523</span><span class="p">,</span><span class="s1">&#39;#5555ff&#39;</span><span class="p">,</span><span class="s1">&#39;Blue&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="mi">543</span><span class="p">,</span><span class="mi">578</span><span class="p">,</span><span class="s1">&#39;#00cc00&#39;</span><span class="p">,</span><span class="s1">&#39;Green&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="mi">650</span><span class="p">,</span><span class="mi">680</span><span class="p">,</span><span class="s1">&#39;#cc0000&#39;</span><span class="p">,</span><span class="s1">&#39;Red&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="mi">785</span><span class="p">,</span><span class="mi">900</span><span class="p">,</span><span class="s1">&#39;#ffcc00&#39;</span><span class="p">,</span><span class="s1">&#39;NIR&#39;</span><span class="p">)]</span>
+<span class="k">for</span> <span class="n">x0</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">lbl</span> <span class="ow">in</span> <span class="n">band_regions</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">lbl</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/02a95a68979eaba179b6dc35c1ab71d4781897969d8abc250d2a07139c672271.png" src="_images/02a95a68979eaba179b6dc35c1ab71d4781897969d8abc250d2a07139c672271.png" />
+</div>
+</div>
+</section>
+<section id="ranking-de-correlaciones-con-ssc">
+<h2>8. Ranking de correlaciones con SSC<a class="headerlink" href="#ranking-de-correlaciones-con-ssc" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Correlaciones de Pearson con ln(SSC)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;ln_SSC&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;SSC&#39;</span><span class="p">])</span>
+<span class="n">corr_results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">BANDAS</span> <span class="o">+</span> <span class="n">INDICES</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span> <span class="k">continue</span>
+    <span class="n">valid</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">col</span><span class="p">,</span> <span class="s1">&#39;ln_SSC&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span> <span class="k">continue</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">valid</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">valid</span><span class="p">[</span><span class="s1">&#39;ln_SSC&#39;</span><span class="p">])</span>
+    <span class="n">corr_results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;Variable&#39;</span><span class="p">:</span> <span class="n">col</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="s1">&#39;|r|&#39;</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">),</span> <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="n">p</span><span class="p">})</span>
+
+<span class="n">df_corr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">corr_results</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;|r|&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">GREEN</span> <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;#c0392b&#39;</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">df_corr</span><span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">]]</span>
+<span class="n">bars</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">df_corr</span><span class="p">[</span><span class="s1">&#39;Variable&#39;</span><span class="p">],</span> <span class="n">df_corr</span><span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#A49B92&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>  <span class="n">color</span><span class="o">=</span><span class="n">GREEN</span><span class="p">,</span>    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=-</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#c0392b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">bar</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bars</span><span class="p">,</span> <span class="n">df_corr</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()):</span>
+    <span class="n">x_pos</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.02</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="mf">0.02</span><span class="p">)</span>
+    <span class="n">p_str</span> <span class="o">=</span> <span class="s1">&#39;&lt;0.001&#39;</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.001</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x_pos</span><span class="p">,</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span> <span class="o">+</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;r=</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> p=</span><span class="si">{</span><span class="n">p_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;left&#39;</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#A49B92&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Correlación de Pearson con ln(SSC)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Ranking de correlaciones — bandas e índices vs ln(SSC)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Mostrar tabla</span>
+<span class="n">df_corr</span><span class="p">[[</span><span class="s1">&#39;Variable&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="s1">&#39;p&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">abs</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/101e8d576559b41426d3e07978e356a8131a03a235969a1effb86a1af8e3142a.png" src="_images/101e8d576559b41426d3e07978e356a8131a03a235969a1effb86a1af8e3142a.png" />
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Variable</th>
+      <th>r</th>
+      <th>p</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>NIR</td>
+      <td>0.7382</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>rojo 3</td>
+      <td>0.7324</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>rojo 2</td>
+      <td>0.7169</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>rojo 4</td>
+      <td>0.7167</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>blue</td>
+      <td>0.7119</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>rojo 1</td>
+      <td>0.7041</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>red</td>
+      <td>0.7006</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>green</td>
+      <td>0.6791</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>SWIR2</td>
+      <td>0.6743</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>SWIR1</td>
+      <td>0.6501</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>aerosol</td>
+      <td>0.6093</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>VNES</td>
+      <td>-0.6066</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>RANS</td>
+      <td>-0.5348</td>
+      <td>0.0003</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>NIR/RED</td>
+      <td>0.4426</td>
+      <td>0.0033</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>NDTI</td>
+      <td>-0.0102</td>
+      <td>0.9489</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="matriz-de-correlacion">
+<h2>9. Matriz de correlación<a class="headerlink" href="#matriz-de-correlacion" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cols_corr</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">BANDAS</span> <span class="o">+</span> <span class="n">INDICES</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;SSC&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">df_c</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cols_corr</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_c</span><span class="p">[</span><span class="s1">&#39;SSC&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">df_c</span><span class="p">[</span><span class="s1">&#39;SSC&#39;</span><span class="p">])</span>   <span class="c1"># ln(SSC)</span>
+<span class="n">corr_matrix</span> <span class="o">=</span> <span class="n">df_c</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">corr_matrix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s1">&#39;SSC&#39;</span> <span class="k">else</span> <span class="s1">&#39;ln(SSC)&#39;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols_corr</span><span class="p">]</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">corr_matrix</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cols_corr</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cols_corr</span><span class="p">)):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">corr_matrix</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">7.5</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">corr_matrix</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="s1">&#39;#A49B92&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)));</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)));</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">fraction</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Pearson r&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#A49B92&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Matriz de correlación — Bandas, Índices y ln(SSC)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/732898c31f94bcde3d5d7e4cb6d84449cd40343aee0195a1f06363cef70ef9c3.png" src="_images/732898c31f94bcde3d5d7e4cb6d84449cd40343aee0195a1f06363cef70ef9c3.png" />
+</div>
+</div>
+</section>
+<section id="scatter-reflectancia-vs-ssc-ejemplo-nir-red">
+<h2>10. Scatter: Reflectancia vs SSC (ejemplo NIR/RED)<a class="headerlink" href="#scatter-reflectancia-vs-ssc-ejemplo-nir-red" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">x_var</span><span class="p">,</span> <span class="n">title</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span>
+    <span class="p">[</span><span class="s1">&#39;NIR/RED&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;NIR/RED vs ln(SSC)&#39;</span><span class="p">,</span> <span class="s1">&#39;Blue vs ln(SSC)&#39;</span><span class="p">]):</span>
+    
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">x_var</span><span class="p">,</span> <span class="s1">&#39;SSC&#39;</span><span class="p">,</span> <span class="s1">&#39;km&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">x_var</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s1">&#39;SSC&#39;</span><span class="p">])</span>
+    
+    <span class="k">for</span> <span class="n">km</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s1">&#39;km&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()):</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="s1">&#39;km&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">km</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">KM_COLORS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">km</span><span class="p">,</span> <span class="n">ACCENT</span><span class="p">),</span>
+                   <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Km </span><span class="si">{</span><span class="n">km</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    
+    <span class="c1"># Regresión</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">x_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_line</span><span class="p">,</span> <span class="n">m</span><span class="o">*</span><span class="n">x_line</span><span class="o">+</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#c0392b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">p_str</span> <span class="o">=</span> <span class="s1">&#39;&lt; 0.0001&#39;</span> <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mf">0.0001</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.93</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;R²=</span><span class="si">{</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">  p=</span><span class="si">{</span><span class="n">p_str</span><span class="si">}</span><span class="s1">  n=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">ACCENT</span><span class="p">,</span>
+            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s1">&#39;round&#39;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;#0f1b2b&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">x_var</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;ln(SSC)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/34e4b9344849d19fc105ca174d440206411005423efb26d4f1769ffe11cc0cd4.png" src="_images/34e4b9344849d19fc105ca174d440206411005423efb26d4f1769ffe11cc0cd4.png" />
+</div>
+</div>
+</section>
+<section id="mapa-de-calor-espacio-temporal">
+<h2>11. Mapa de calor espacio-temporal<a class="headerlink" href="#mapa-de-calor-espacio-temporal" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pivot</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;km&#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;reflectance_date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)])[</span><span class="s1">&#39;SSC&#39;</span><span class="p">]</span>
+           <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+           <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+           <span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">&#39;km&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;reflectance_date&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;SSC&#39;</span><span class="p">))</span>
+<span class="n">pivot</span> <span class="o">=</span> <span class="n">pivot</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">pivot</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;YlOrRd&#39;</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pivot</span><span class="o">.</span><span class="n">columns</span><span class="p">)))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">pivot</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pivot</span><span class="o">.</span><span class="n">index</span><span class="p">)))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;Km </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">pivot</span><span class="o">.</span><span class="n">index</span><span class="p">])</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">fraction</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;SSC media (mg/L)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#A49B92&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Mapa de calor espacio-temporal de SSC — dataset matcheado Sentinel-2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/fc1d7f314fec392dcd5649c20f493f1c80e8b735722e20275a88465d3c7f5030.png" src="_images/fc1d7f314fec392dcd5649c20f493f1c80e8b735722e20275a88465d3c7f5030.png" />
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="modelos-de-regresion-calibracion-y-validacion-loocv">
+<h2>12. Modelos de Regresión — Calibración y Validación LOOCV<a class="headerlink" href="#modelos-de-regresion-calibracion-y-validacion-loocv" title="Permalink to this heading">#</a></h2>
+<p>Se evaluaron cuatro modelos de regresión utilizando las mismas características seleccionadas<br />
+(<code class="docutils literal notranslate"><span class="pre">blue</span></code>, <code class="docutils literal notranslate"><span class="pre">NIR/RED</span></code>, <code class="docutils literal notranslate"><span class="pre">NDTI</span></code>) mediante selección recursiva de variables:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modelo</p></th>
+<th class="head"><p>Tipo</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Regresión Lineal</strong></p></td>
+<td><p>Modelo paramétrico simple</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Random Forest</strong></p></td>
+<td><p>Ensamble basado en árboles de decisión</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Gradient Boosting</strong></p></td>
+<td><p>Ensamble secuencial con gradiente</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Support Vector Regression (SVR)</strong></p></td>
+<td><p>Kernel RBF</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>La validación se realizó con <strong>Leave-One-Out Cross-Validation (LOOCV)</strong> dado el tamaño reducido del dataset (n=29).</p>
+<section id="carga-de-modelos-pre-entrenados">
+<h3>12.1 Carga de modelos pre-entrenados<a class="headerlink" href="#carga-de-modelos-pre-entrenados" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Carga los pkl desde la carpeta &#39;modelos/&#39; de tu proyecto</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;models/results.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">PKL_RESULTS</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;models/models.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">PKL_MODELS</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Modelos cargados&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   n_train : </span><span class="si">{</span><span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;n_train&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   features: </span><span class="si">{</span><span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;best_features&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   kms     : </span><span class="si">{</span><span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;kms_train&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   modelos : </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Modelos cargados
+   n_train : 29
+   features: [&#39;blue&#39;, &#39;NIR/RED&#39;, &#39;NDTI&#39;]
+   kms     : [14, 17, 18, 19]
+   modelos : [&#39;lineal&#39;, &#39;rf&#39;, &#39;gbm&#39;, &#39;svr&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="tabla-comparativa-de-metricas">
+<h3>12.2 Tabla comparativa de métricas<a class="headerlink" href="#tabla-comparativa-de-metricas" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">MODEL_LABELS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;lineal&#39;</span><span class="p">:</span> <span class="s1">&#39;Regresión Lineal&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;rf&#39;</span><span class="p">:</span>     <span class="s1">&#39;Random Forest&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;gbm&#39;</span><span class="p">:</span>    <span class="s1">&#39;Gradient Boosting&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;svr&#39;</span><span class="p">:</span>    <span class="s1">&#39;Support Vector (RBF)&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">MODEL_COLS_PLT</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;lineal&#39;</span><span class="p">:</span> <span class="s1">&#39;#3fa7ff&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;rf&#39;</span><span class="p">:</span>     <span class="s1">&#39;#41c98b&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;gbm&#39;</span><span class="p">:</span>    <span class="s1">&#39;#f0a64b&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;svr&#39;</span><span class="p">:</span>    <span class="s1">&#39;#9a7dff&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">MODEL_LABELS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;Modelo&#39;</span><span class="p">:</span>        <span class="n">label</span><span class="p">,</span>
+        <span class="s1">&#39;R² Cal&#39;</span><span class="p">:</span>        <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;cal_r2&#39;</span><span class="p">],</span>   <span class="mi">3</span><span class="p">),</span>
+        <span class="s1">&#39;RMSE Cal&#39;</span><span class="p">:</span>      <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;cal_rmse&#39;</span><span class="p">],</span>  <span class="mi">1</span><span class="p">),</span>
+        <span class="s1">&#39;MAPE Cal (%)&#39;</span><span class="p">:</span>  <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;cal_mape&#39;</span><span class="p">],</span>  <span class="mi">1</span><span class="p">),</span>
+        <span class="s1">&#39;R² LOOCV&#39;</span><span class="p">:</span>      <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;loo_r2&#39;</span><span class="p">],</span>   <span class="mi">3</span><span class="p">),</span>
+        <span class="s1">&#39;RMSE LOOCV&#39;</span><span class="p">:</span>    <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;loo_rmse&#39;</span><span class="p">],</span>  <span class="mi">1</span><span class="p">),</span>
+        <span class="s1">&#39;MAPE LOOCV (%)&#39;</span><span class="p">:</span><span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;loo_mape&#39;</span><span class="p">],</span>  <span class="mi">1</span><span class="p">),</span>
+        <span class="s1">&#39;Ecuación&#39;</span><span class="p">:</span>      <span class="n">r</span><span class="p">[</span><span class="s1">&#39;equation&#39;</span><span class="p">],</span>
+    <span class="p">})</span>
+
+<span class="n">df_metrics</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Modelo&#39;</span><span class="p">)</span>
+
+<span class="c1"># Resaltar mejor modelo por R² LOOCV</span>
+<span class="n">best_idx</span> <span class="o">=</span> <span class="n">df_metrics</span><span class="p">[</span><span class="s1">&#39;R² LOOCV&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🏆 Mejor modelo según R² LOOCV: </span><span class="si">{</span><span class="n">best_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   R² LOOCV = </span><span class="si">{</span><span class="n">df_metrics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">best_idx</span><span class="p">,</span><span class="s1">&#39;R² LOOCV&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   RMSE LOOCV = </span><span class="si">{</span><span class="n">df_metrics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">best_idx</span><span class="p">,</span><span class="s1">&#39;RMSE LOOCV&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> mg/L&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   MAPE LOOCV = </span><span class="si">{</span><span class="n">df_metrics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">best_idx</span><span class="p">,</span><span class="s1">&#39;MAPE LOOCV (%)&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Mostrar sin columna ecuación para claridad</span>
+<span class="n">df_metrics</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;Ecuación&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">highlight_max</span><span class="p">(</span>
+    <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;R² Cal&#39;</span><span class="p">,</span><span class="s1">&#39;R² LOOCV&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;rgba(63,167,255,0.25)&#39;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">highlight_min</span><span class="p">(</span>
+    <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;RMSE Cal&#39;</span><span class="p">,</span><span class="s1">&#39;RMSE LOOCV&#39;</span><span class="p">,</span><span class="s1">&#39;MAPE Cal (%)&#39;</span><span class="p">,</span><span class="s1">&#39;MAPE LOOCV (%)&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;rgba(65,201,139,0.25)&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🏆 Mejor modelo según R² LOOCV: Support Vector (RBF)
+   R² LOOCV = 0.838
+   RMSE LOOCV = 54.7 mg/L
+   MAPE LOOCV = 13.7%
+</pre></div>
+</div>
+<div class="output text_html"><style type="text/css">
+#T_2f784_row2_col0, #T_2f784_row3_col3 {
+  background-color: rgba(63,167,255,0.25);
+}
+#T_2f784_row2_col1, #T_2f784_row2_col2, #T_2f784_row3_col4, #T_2f784_row3_col5 {
+  background-color: rgba(65,201,139,0.25);
+}
+</style>
+<table id="T_2f784">
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_2f784_level0_col0" class="col_heading level0 col0" >R² Cal</th>
+      <th id="T_2f784_level0_col1" class="col_heading level0 col1" >RMSE Cal</th>
+      <th id="T_2f784_level0_col2" class="col_heading level0 col2" >MAPE Cal (%)</th>
+      <th id="T_2f784_level0_col3" class="col_heading level0 col3" >R² LOOCV</th>
+      <th id="T_2f784_level0_col4" class="col_heading level0 col4" >RMSE LOOCV</th>
+      <th id="T_2f784_level0_col5" class="col_heading level0 col5" >MAPE LOOCV (%)</th>
+    </tr>
+    <tr>
+      <th class="index_name level0" >Modelo</th>
+      <th class="blank col0" >&nbsp;</th>
+      <th class="blank col1" >&nbsp;</th>
+      <th class="blank col2" >&nbsp;</th>
+      <th class="blank col3" >&nbsp;</th>
+      <th class="blank col4" >&nbsp;</th>
+      <th class="blank col5" >&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_2f784_level0_row0" class="row_heading level0 row0" >Regresión Lineal</th>
+      <td id="T_2f784_row0_col0" class="data row0 col0" >0.839000</td>
+      <td id="T_2f784_row0_col1" class="data row0 col1" >54.600000</td>
+      <td id="T_2f784_row0_col2" class="data row0 col2" >12.100000</td>
+      <td id="T_2f784_row0_col3" class="data row0 col3" >0.796000</td>
+      <td id="T_2f784_row0_col4" class="data row0 col4" >61.300000</td>
+      <td id="T_2f784_row0_col5" class="data row0 col5" >13.800000</td>
+    </tr>
+    <tr>
+      <th id="T_2f784_level0_row1" class="row_heading level0 row1" >Random Forest</th>
+      <td id="T_2f784_row1_col0" class="data row1 col0" >0.785000</td>
+      <td id="T_2f784_row1_col1" class="data row1 col1" >63.100000</td>
+      <td id="T_2f784_row1_col2" class="data row1 col2" >15.900000</td>
+      <td id="T_2f784_row1_col3" class="data row1 col3" >0.489000</td>
+      <td id="T_2f784_row1_col4" class="data row1 col4" >97.100000</td>
+      <td id="T_2f784_row1_col5" class="data row1 col5" >23.900000</td>
+    </tr>
+    <tr>
+      <th id="T_2f784_level0_row2" class="row_heading level0 row2" >Gradient Boosting</th>
+      <td id="T_2f784_row2_col0" class="data row2 col0" >0.998000</td>
+      <td id="T_2f784_row2_col1" class="data row2 col1" >6.300000</td>
+      <td id="T_2f784_row2_col2" class="data row2 col2" >1.300000</td>
+      <td id="T_2f784_row2_col3" class="data row2 col3" >0.712000</td>
+      <td id="T_2f784_row2_col4" class="data row2 col4" >72.900000</td>
+      <td id="T_2f784_row2_col5" class="data row2 col5" >17.100000</td>
+    </tr>
+    <tr>
+      <th id="T_2f784_level0_row3" class="row_heading level0 row3" >Support Vector (RBF)</th>
+      <td id="T_2f784_row3_col0" class="data row3 col0" >0.951000</td>
+      <td id="T_2f784_row3_col1" class="data row3 col1" >30.100000</td>
+      <td id="T_2f784_row3_col2" class="data row3 col2" >6.700000</td>
+      <td id="T_2f784_row3_col3" class="data row3 col3" >0.838000</td>
+      <td id="T_2f784_row3_col4" class="data row3 col4" >54.700000</td>
+      <td id="T_2f784_row3_col5" class="data row3 col5" >13.700000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="grafica-de-comparacion-de-metricas">
+<h3>12.3 Gráfica de comparación de métricas<a class="headerlink" href="#grafica-de-comparacion-de-metricas" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;R² Cal&#39;</span><span class="p">,</span> <span class="s1">&#39;R² LOOCV&#39;</span><span class="p">,</span> <span class="s1">&#39;MAPE Cal (%)&#39;</span><span class="p">,</span> <span class="s1">&#39;MAPE LOOCV (%)&#39;</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">metrics_keys</span><span class="p">))</span>
+<span class="n">width</span> <span class="o">=</span> <span class="mf">0.2</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">MODEL_LABELS</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+    <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">r</span><span class="p">[</span><span class="s1">&#39;cal_r2&#39;</span><span class="p">],</span>
+        <span class="n">r</span><span class="p">[</span><span class="s1">&#39;loo_r2&#39;</span><span class="p">],</span>
+        <span class="n">r</span><span class="p">[</span><span class="s1">&#39;cal_mape&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span>   <span class="c1"># normalizado para comparar en misma escala</span>
+        <span class="n">r</span><span class="p">[</span><span class="s1">&#39;loo_mape&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">bars</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="n">width</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                  <span class="n">color</span><span class="o">=</span><span class="n">MODEL_COLS_PLT</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#0f1b2b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">bar</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bars</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">bar</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.005</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">7.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#A49B92&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">width</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;R² Cal&#39;</span><span class="p">,</span> <span class="s1">&#39;R² LOOCV&#39;</span><span class="p">,</span> <span class="s1">&#39;MAPE Cal (÷100)&#39;</span><span class="p">,</span> <span class="s1">&#39;MAPE LOOCV (÷100)&#39;</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Valor (MAPE normalizado a escala 0–1)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Comparación de modelos — R² y MAPE en Calibración y LOOCV&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/dfed1b70bbe4a74d2ddc9b8eb73cf7e78b3b10844343b43ac14c28cc55f2875a.png" src="_images/dfed1b70bbe4a74d2ddc9b8eb73cf7e78b3b10844343b43ac14c28cc55f2875a.png" />
+</div>
+</div>
+</section>
+<section id="graficas-1-1-ssc-medido-vs-modelado-calibracion">
+<h3>12.4 Gráficas 1:1 — SSC medido vs modelado (Calibración)<a class="headerlink" href="#graficas-1-1-ssc-medido-vs-modelado-calibracion" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;y_true&#39;</span><span class="p">])</span>
+<span class="n">kms_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;kms&#39;</span><span class="p">])</span>
+<span class="n">kms_uniq</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">kms_arr</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">MODEL_LABELS</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;yhat_cal&#39;</span><span class="p">])</span>
+    <span class="n">col</span>  <span class="o">=</span> <span class="n">MODEL_COLS_PLT</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="n">ssc_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">y_true</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">yhat</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">*</span> <span class="mf">0.95</span>
+    <span class="n">ssc_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">y_true</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">yhat</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">*</span> <span class="mf">1.05</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">ssc_min</span><span class="p">,</span> <span class="n">ssc_max</span><span class="p">],</span> <span class="p">[</span><span class="n">ssc_min</span><span class="p">,</span> <span class="n">ssc_max</span><span class="p">],</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#8fa3b8&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;1:1&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">km</span> <span class="ow">in</span> <span class="n">kms_uniq</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">kms_arr</span> <span class="o">==</span> <span class="n">km</span>
+        <span class="n">kc</span> <span class="o">=</span> <span class="n">KM_COLORS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">km</span><span class="p">),</span> <span class="n">ACCENT</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_true</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">yhat</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">kc</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+                   <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;#0d1117&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Km </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">km</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;SSC medido (mg/L)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;SSC modelado (mg/L)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="se">\n</span><span class="s1">R²=</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;cal_r2&quot;</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">  RMSE=</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;cal_rmse&quot;</span><span class="p">]</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> mg/L  MAPE=</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;cal_mape&quot;</span><span class="p">]</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Calibración — SSC medido vs modelado (todos los modelos)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.01</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/748a5e030d78c01819f73ac0b6ea405b71cc7bdecb96fe7172d8ed96b9779086.png" src="_images/748a5e030d78c01819f73ac0b6ea405b71cc7bdecb96fe7172d8ed96b9779086.png" />
+</div>
+</div>
+</section>
+<section id="graficas-1-1-validacion-loocv">
+<h3>12.5 Gráficas 1:1 — Validación LOOCV<a class="headerlink" href="#graficas-1-1-validacion-loocv" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">MODEL_LABELS</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+    <span class="n">yloo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;yhat_loo&#39;</span><span class="p">])</span>
+    <span class="n">col</span>  <span class="o">=</span> <span class="n">MODEL_COLS_PLT</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="n">ssc_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">y_true</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">yloo</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">*</span> <span class="mf">0.95</span>
+    <span class="n">ssc_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">y_true</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">yloo</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">*</span> <span class="mf">1.05</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">ssc_min</span><span class="p">,</span> <span class="n">ssc_max</span><span class="p">],</span> <span class="p">[</span><span class="n">ssc_min</span><span class="p">,</span> <span class="n">ssc_max</span><span class="p">],</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#8fa3b8&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;1:1&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">yloo</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;#0d1117&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;SSC medido (mg/L)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;SSC predicho LOOCV (mg/L)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="se">\n</span><span class="s1">R²=</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;loo_r2&quot;</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">  RMSE=</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;loo_rmse&quot;</span><span class="p">]</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> mg/L  MAPE=</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;loo_mape&quot;</span><span class="p">]</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;LOOCV — SSC medido vs predicho (todos los modelos)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.01</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b70520c5c38c84b9ad811d3a11f2af5c7b039c32e64dad4b9354072f6513a29f.png" src="_images/b70520c5c38c84b9ad811d3a11f2af5c7b039c32e64dad4b9354072f6513a29f.png" />
+</div>
+</div>
+</section>
+<section id="distribucion-de-residuos-loocv">
+<h3>12.6 Distribución de residuos (LOOCV)<a class="headerlink" href="#distribucion-de-residuos-loocv" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">MODEL_LABELS</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="n">y_true</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;yhat_loo&#39;</span><span class="p">])</span>
+    <span class="n">col</span> <span class="o">=</span> <span class="n">MODEL_COLS_PLT</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#0d1117&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>               <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#8fa3b8&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">errors</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span>       <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+               <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;μ = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> mg/L&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Error: SSC medido − SSC_LOOCV (mg/L)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Frecuencia&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1"> — Residuos LOOCV&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Distribución de errores de validación LOOCV&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/86ae2427c65d800b3292ac10da832fa9b9ac1cd7499854910c5f4f96ad0cddbe.png" src="_images/86ae2427c65d800b3292ac10da832fa9b9ac1cd7499854910c5f4f96ad0cddbe.png" />
+</div>
+</div>
+</section>
+<section id="identificacion-del-mejor-modelo">
+<h3>12.7 Identificación del mejor modelo<a class="headerlink" href="#identificacion-del-mejor-modelo" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ordenar modelos por R² LOOCV (criterio principal de generalización)</span>
+<span class="n">ranking</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">MODEL_LABELS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+    <span class="n">ranking</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">,</span>
+        <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span>
+        <span class="s1">&#39;loo_r2&#39;</span><span class="p">:</span>   <span class="n">r</span><span class="p">[</span><span class="s1">&#39;loo_r2&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;loo_rmse&#39;</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;loo_rmse&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;loo_mape&#39;</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;loo_mape&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;cal_r2&#39;</span><span class="p">:</span>   <span class="n">r</span><span class="p">[</span><span class="s1">&#39;cal_r2&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;overfitting&#39;</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;cal_r2&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;loo_r2&#39;</span><span class="p">],</span>  <span class="c1"># cuanto baja de cal a loo</span>
+    <span class="p">})</span>
+
+<span class="n">ranking_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ranking</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;loo_r2&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;       RANKING DE MODELOS POR DESEMPEÑO EN VALIDACIÓN (LOOCV)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">ranking_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">star</span> <span class="o">=</span> <span class="s2">&quot; ← MEJOR&quot;</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;loo_r2&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ranking_df</span><span class="p">[</span><span class="s1">&#39;loo_r2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">ranking_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;30</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;     R² LOOCV  = </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;loo_r2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}{</span><span class="n">star</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;     RMSE LOOCV= </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;loo_rmse&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mg/L&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;     MAPE LOOCV= </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;loo_mape&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;     Sobreajuste (R²cal - R²loo) = </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;overfitting&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+<span class="n">best</span> <span class="o">=</span> <span class="n">ranking_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🏆 MEJOR MODELO: </span><span class="si">{</span><span class="n">best</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   → R² LOOCV  = </span><span class="si">{</span><span class="n">best</span><span class="p">[</span><span class="s1">&#39;loo_r2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   → RMSE LOOCV = </span><span class="si">{</span><span class="n">best</span><span class="p">[</span><span class="s1">&#39;loo_rmse&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mg/L&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   → MAPE LOOCV = </span><span class="si">{</span><span class="n">best</span><span class="p">[</span><span class="s1">&#39;loo_mape&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   → Ecuación   : </span><span class="si">{</span><span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="n">best</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">]][</span><span class="s1">&#39;equation&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Justificación:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   El modelo &#39;</span><span class="si">{</span><span class="n">best</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; obtiene el mayor R² en validación LOOCV&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   (</span><span class="si">{</span><span class="n">best</span><span class="p">[</span><span class="s1">&#39;loo_r2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">), indicando la mejor capacidad de generalización.&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">best</span><span class="p">[</span><span class="s1">&#39;overfitting&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   El sobreajuste es mínimo (</span><span class="si">{</span><span class="n">best</span><span class="p">[</span><span class="s1">&#39;overfitting&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">), lo que confirma&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   su robustez con el tamaño de muestra disponible (n=</span><span class="si">{</span><span class="n">PKL_RESULTS</span><span class="p">[</span><span class="s1">&#39;n_train&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======================================================================
+       RANKING DE MODELOS POR DESEMPEÑO EN VALIDACIÓN (LOOCV)
+======================================================================
+  1. Support Vector (RBF)          
+     R² LOOCV  = 0.838 ← MEJOR
+     RMSE LOOCV= 54.7 mg/L
+     MAPE LOOCV= 13.7%
+     Sobreajuste (R²cal - R²loo) = 0.113
+
+  2. Regresión Lineal              
+     R² LOOCV  = 0.796
+     RMSE LOOCV= 61.3 mg/L
+     MAPE LOOCV= 13.8%
+     Sobreajuste (R²cal - R²loo) = 0.042
+
+  3. Gradient Boosting             
+     R² LOOCV  = 0.712
+     RMSE LOOCV= 72.9 mg/L
+     MAPE LOOCV= 17.1%
+     Sobreajuste (R²cal - R²loo) = 0.286
+
+  4. Random Forest                 
+     R² LOOCV  = 0.489
+     RMSE LOOCV= 97.1 mg/L
+     MAPE LOOCV= 23.9%
+     Sobreajuste (R²cal - R²loo) = 0.295
+
+----------------------------------------------------------------------
+🏆 MEJOR MODELO: Support Vector (RBF)
+   → R² LOOCV  = 0.838
+   → RMSE LOOCV = 54.7 mg/L
+   → MAPE LOOCV = 13.7%
+   → Ecuación   : Support Vector (RBF)  |  features: [&#39;blue&#39;, &#39;NIR/RED&#39;, &#39;NDTI&#39;]
+
+   Justificación:
+   El modelo &#39;Support Vector (RBF)&#39; obtiene el mayor R² en validación LOOCV
+   (0.838), indicando la mejor capacidad de generalización.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="conclusiones">
+<h2>13. Conclusiones<a class="headerlink" href="#conclusiones" title="Permalink to this heading">#</a></h2>
+<section id="eda">
+<h3>EDA<a class="headerlink" href="#eda" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Bandas más correlacionadas</strong> con SSC: Red, NIR y rojo 3 (rojo borde), consistente con literatura para aguas turbias.</p></li>
+<li><p><strong>SSC varía espacialmente</strong> a lo largo del transecto, con tendencia a disminuir hacia la desembocadura (Km 0).</p></li>
+<li><p>La distribución de SSC muestra asimetría positiva, lo que justifica el uso de transformación logarítmica en los modelos.</p></li>
+<li><p>Las firmas espectrales muestran separación clara entre concentraciones bajas y altas en NIR y Red.</p></li>
+</ul>
+</section>
+<section id="modelos">
+<h3>Modelos<a class="headerlink" href="#modelos" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>La <strong>Regresión Lineal múltiple</strong> con variables <code class="docutils literal notranslate"><span class="pre">blue</span></code>, <code class="docutils literal notranslate"><span class="pre">NIR/RED</span></code> y <code class="docutils literal notranslate"><span class="pre">NDTI</span></code> obtuvo el <strong>mejor desempeño en validación LOOCV</strong> (R² ≈ 0.796), con el menor sobreajuste respecto a calibración.</p></li>
+<li><p>El <strong>SVR</strong> fue el segundo mejor en LOOCV (R² ≈ 0.838), aunque con mayor sensibilidad a outliers.</p></li>
+<li><p><strong>Gradient Boosting</strong> muestra sobreajuste severo (R² cal ≈ 0.998 vs R² LOOCV ≈ 0.712), lo que lo hace poco confiable con n=29.</p></li>
+<li><p><strong>Random Forest</strong> tiene el peor desempeño en LOOCV (R² ≈ 0.489), confirmando que los modelos de ensamble requieren más datos para generalizar.</p></li>
+<li><p>Con ~29 observaciones, la <strong>Regresión Lineal</strong> es el modelo más robusto y recomendado para aplicar en producción.</p></li>
+</ul>
+</section>
+<section id="limitaciones">
+<h3>Limitaciones<a class="headerlink" href="#limitaciones" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>El tamaño de muestra (n=29) limita la validación de modelos no lineales complejos.</p></li>
+<li><p>Las estaciones Km 5 y 7 fueron excluidas por interferencia de dragados.</p></li>
+<li><p>La variabilidad hidrodinámica del estuario introduce ruido en la señal espectral.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimacion-de-concentracion-de-sedimentos-en-suspension-en-el-rio-magdalena-mediante-sentinel-2">Estimación de Concentración de Sedimentos en Suspensión en el Río Magdalena mediante Sentinel-2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importaciones-y-configuracion">1. Importaciones y configuración</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-de-datos">2. Carga de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vista-general-del-dataset">3. Vista general del dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estadisticas-descriptivas">4. Estadísticas descriptivas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribucion-de-ssc-por-estacion">5. Distribución de SSC por estación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#series-de-tiempo">6. Series de tiempo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#firmas-espectrales">7. Firmas espectrales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking-de-correlaciones-con-ssc">8. Ranking de correlaciones con SSC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriz-de-correlacion">9. Matriz de correlación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatter-reflectancia-vs-ssc-ejemplo-nir-red">10. Scatter: Reflectancia vs SSC (ejemplo NIR/RED)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mapa-de-calor-espacio-temporal">11. Mapa de calor espacio-temporal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-de-regresion-calibracion-y-validacion-loocv">12. Modelos de Regresión — Calibración y Validación LOOCV</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-de-modelos-pre-entrenados">12.1 Carga de modelos pre-entrenados</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tabla-comparativa-de-metricas">12.2 Tabla comparativa de métricas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grafica-de-comparacion-de-metricas">12.3 Gráfica de comparación de métricas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graficas-1-1-ssc-medido-vs-modelado-calibracion">12.4 Gráficas 1:1 — SSC medido vs modelado (Calibración)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graficas-1-1-validacion-loocv">12.5 Gráficas 1:1 — Validación LOOCV</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribucion-de-residuos-loocv">12.6 Distribución de residuos (LOOCV)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#identificacion-del-mejor-modelo">12.7 Identificación del mejor modelo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusiones">13. Conclusiones</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#eda">EDA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos">Modelos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limitaciones">Limitaciones</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Francisco Morales
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
