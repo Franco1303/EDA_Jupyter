@@ -1,0 +1,18 @@
+title: EDA CSS Magdalena
+author: Francisco Morales
+
+execute:
+  execute_notebooks: force
+  timeout: 600
+
+html:
+  use_repository_button: false
+  use_issues_button: false
+
+exclude_patterns:
+  - .conda/**
+  - _build/**
+  - .ipynb_checkpoints/**
+  - README_BUILD.md
+  - requirements*.txt
+  - EDA_CSS_Magdalena.ipynb

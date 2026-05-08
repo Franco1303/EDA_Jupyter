@@ -1,0 +1,18 @@
+# Python recomendado: 3.9.x
+
+jupyter-book==0.15.1
+myst-nb==0.17.2
+myst-parser==0.18.1
+jupyter-cache==0.6.1
+
+ipykernel==6.25.1
+ipython==8.15.0
+nbclient==0.7.4
+nbconvert==7.17.1
+nbformat==5.9.2
+
+numpy==1.23.5
+pandas==1.5.3
+plotly==5.24.1
+scipy==1.10.1
+openpyxl==3.1.5
