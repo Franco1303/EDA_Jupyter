@@ -16,3 +16,4 @@ exclude_patterns:
   - README_BUILD.md
   - requirements*.txt
   - EDA_CSS_Magdalena.ipynb
+  - EDA_CSS_Magdalena_py39_compatible.ipynb
